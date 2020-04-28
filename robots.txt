@@ -1,1 +1,1 @@
-Sitemap: https://jordwil.github.io/dsblog/sitemap.xml
+Sitemap: https://jordwil.data.com/blog/sitemap.xml
