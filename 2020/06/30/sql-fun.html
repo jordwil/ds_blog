@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Solving Mysteries with SQL | Data Sci Blog</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Solving Mysteries with SQL" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A preview on some of the projects I’m working on." />
+<meta property="og:description" content="A preview on some of the projects I’m working on." />
+<link rel="canonical" href="https://jordwil.github.io/ds_blog/2020/06/30/sql-fun.html" />
+<meta property="og:url" content="https://jordwil.github.io/ds_blog/2020/06/30/sql-fun.html" />
+<meta property="og:site_name" content="Data Sci Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-06-30T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"A preview on some of the projects I’m working on.","mainEntityOfPage":{"@type":"WebPage","@id":"https://jordwil.github.io/ds_blog/2020/06/30/sql-fun.html"},"@type":"BlogPosting","url":"https://jordwil.github.io/ds_blog/2020/06/30/sql-fun.html","headline":"Solving Mysteries with SQL","dateModified":"2020-06-30T00:00:00-05:00","datePublished":"2020-06-30T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/ds_blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jordwil.github.io/ds_blog/feed.xml" title="Data Sci Blog" /><link rel="shortcut icon" type="image/x-icon" href="/ds_blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Solving Mysteries with SQL | Data Sci Blog</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Solving Mysteries with SQL" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A preview on some of the projects I’m working on." />
+<meta property="og:description" content="A preview on some of the projects I’m working on." />
+<link rel="canonical" href="https://jordwil.github.io/ds_blog/2020/06/30/sql-fun.html" />
+<meta property="og:url" content="https://jordwil.github.io/ds_blog/2020/06/30/sql-fun.html" />
+<meta property="og:site_name" content="Data Sci Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-06-30T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"A preview on some of the projects I’m working on.","mainEntityOfPage":{"@type":"WebPage","@id":"https://jordwil.github.io/ds_blog/2020/06/30/sql-fun.html"},"@type":"BlogPosting","url":"https://jordwil.github.io/ds_blog/2020/06/30/sql-fun.html","headline":"Solving Mysteries with SQL","dateModified":"2020-06-30T00:00:00-05:00","datePublished":"2020-06-30T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://jordwil.github.io/ds_blog/feed.xml" title="Data Sci Blog" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+require.config({
+  paths: {
+    jquery: 'https://code.jquery.com/jquery-3.5.0.min',
+    plotly: 'https://cdn.plot.ly/plotly-latest.min'
+  },
+
+  shim: {
+    plotly: {
+      deps: ['jquery'],
+      exports: 'plotly'
+    }
+  }
+});
+</script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/ds_blog/">Data Sci Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/ds_blog/about/">About Me</a><a class="page-link" href="/ds_blog/search/">Search</a><a class="page-link" href="/ds_blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Solving Mysteries with SQL</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-06-30T00:00:00-05:00" itemprop="datePublished">
+        Jun 30, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      9 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/jordwil/ds_blog/tree/master/_notebooks/2020-06-30-sql-fun.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/ds_blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          
+          
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-06-30-sql-fun.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>toc: false</li>
+<li>branch: master</li>
+<li>badges: true</li>
+<li>comments: true</li>
+<li>categories: [sql, jupyter]</li>
+<li>image: images/sql/sql-server.png</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's solve a mystery hidden in an sql database.</p>
+<p>The instructions and database was created by Joon Park and Cathy He while fellows at the Knight Lab at Northwesten University.</p>
+<p>Here's a step by step solution, though if you'd like to try it yourself first, 
+check out <a href="https://mystery.knightlab.com/">their interactive site</a>.</p>
+<p>Here's the description from the knight lab:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>A crime has taken place and the detective needs your help. The detective gave you the crime scene report, but you somehow lost it. You vaguely remember that the crime was a <strong>murder</strong> that occurred sometime on <strong>Jan.15, 2018</strong> and that it took place in <strong>SQL City</strong>. Start by retrieving the corresponding crime scene report from the police department’s database.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-setup">The setup<a class="anchor-link" href="#The-setup"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We'll use pandas to make the queries look nice and sqlite3 to make the connection.</p>
+<p>I'm also adding a function pq to quickly grab the results of a query based on the value of the query variable.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">sqlite3</span> <span class="kn">import</span> <span class="n">Error</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_connection</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+
+    <span class="n">connection</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">try</span><span class="p">:</span>
+
+        <span class="n">connection</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Connection to SQLite DB successful&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The error &#39;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&#39; occurred&quot;</span><span class="p">)</span>
+
+
+    <span class="k">return</span> <span class="n">connection</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">db</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;../datasets/sql-murder/sql-murder-mystery.db&#39;</span><span class="p">)</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">create_connection</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Connection to SQLite DB successful
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Taking a look at all the tables by selecting <em>name</em> filtering by <em>table</em>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">pq</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">conn</span><span class="o">=</span><span class="n">conn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a sql query as a pandas dataframe&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT name </span>
+<span class="s2">  FROM sqlite_master</span>
+<span class="s2"> where type = &#39;table&#39;&quot;&quot;&quot;</span>
+<span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>crime_scene_report</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>drivers_license</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>person</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>facebook_event_checkin</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>interview</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>get_fit_now_member</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>get_fit_now_check_in</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>income</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>solution</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to determine the structure of each table, we can run a query like this:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT sql </span>
+<span class="s2">  FROM sqlite_master</span>
+<span class="s2"> where name = &#39;crime_scene_report&#39;&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CREATE TABLE crime_scene_report (
+        date integer,
+        type text,
+        description text,
+        city text
+    )
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Solving-the-mystery">Solving the mystery<a class="anchor-link" href="#Solving-the-mystery"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Finding-the-witnesses">Finding the witnesses<a class="anchor-link" href="#Finding-the-witnesses"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM crime_scene_report</span>
+<span class="s2">LIMIT 5&quot;&quot;&quot;</span>
+<span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>type</th>
+      <th>description</th>
+      <th>city</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>20180115</td>
+      <td>robbery</td>
+      <td>A Man Dressed as Spider-Man Is on a Robbery Spree</td>
+      <td>NYC</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>20180115</td>
+      <td>murder</td>
+      <td>Life? Dont talk to me about life.</td>
+      <td>Albany</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>20180115</td>
+      <td>murder</td>
+      <td>Mama, I killed a man, put a gun against his he...</td>
+      <td>Reno</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>20180215</td>
+      <td>murder</td>
+      <td>REDACTED REDACTED REDACTED</td>
+      <td>SQL City</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>20180215</td>
+      <td>murder</td>
+      <td>Someone killed the guard! He took an arrow to ...</td>
+      <td>SQL City</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's start with what we know. According to the prompt, we know that this murder took place on Jan. 15 2018 in SQL City. This should be enough info to explore crime scene reports.</p>
+<p>We care about the description, and want to filter by <strong>city</strong>, <strong>date</strong>, and <strong>type</strong>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT description </span>
+<span class="s2">FROM crime_scene_report </span>
+<span class="s2">WHERE city = &#39;SQL City&#39; AND type = &#39;murder&#39; AND date = 20180115&quot;&quot;&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Security footage shows that there were 2 witnesses. The first witness lives at the last house on &#34;Northwestern Dr&#34;. The second witness, named Annabel, lives somewhere on &#34;Franklin Ave&#34;.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Finding-the-interviews">Finding the interviews<a class="anchor-link" href="#Finding-the-interviews"> </a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Located witnesses presumably interviewed by detectives. 
+Let's take a quick look the interview table</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT * </span>
+<span class="s2">FROM interview</span>
+<span class="s2">LIMIT 5</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>person_id</th>
+      <th>transcript</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>28508</td>
+      <td>‘I deny it!’ said the March Hare.\n</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>63713</td>
+      <td>\n</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>86208</td>
+      <td>way, and the whole party swam to the shore.\n</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>35267</td>
+      <td>lessons in here? Why, there’s hardly room for ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>33856</td>
+      <td>\n</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Not too useful (yet). We need to figure out how the <strong>person_id</strong> connects</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT sql </span>
+<span class="s2">  FROM sqlite_master</span>
+<span class="s2"> where name = &#39;interview&#39;&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CREATE TABLE interview (
+        person_id integer,
+        transcript text,
+        FOREIGN KEY (person_id) REFERENCES person(id)
+    )
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>AHA! So let's connect person_id from the person table.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT sql </span>
+<span class="s2">  FROM sqlite_master</span>
+<span class="s2"> where name = &#39;person&#39;&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CREATE TABLE person (
+        id integer PRIMARY KEY,
+        name text,
+        license_id integer,
+        address_number integer,
+        address_street_name text,
+        ssn integer,
+        FOREIGN KEY (license_id) REFERENCES drivers_license(id)
+    )
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The clues we have are:</p>
+<ul>
+<li>Annabel, who lives on "Franklin Ave"</li>
+<li>Someone else who lives on the last house on "Northwestern Dr"</li>
+</ul>
+<p>Once we join both tables, a subquery will help capture the last house by finding the largest street number for Northwestern Dr. 
+We can use an fstring to inject the subquery, making it a bit more readable.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">subq</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT MAX(address_number) </span>
+<span class="s2">FROM person </span>
+<span class="s2">WHERE address_street_name = &#39;Northwestern Dr&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT transcript</span>
+<span class="s2">FROM person AS p</span>
+<span class="s2">INNER JOIN interview AS i ON p.id = i.person_id</span>
+<span class="s2">WHERE (address_street_name = &#39;Franklin Ave&#39; AND name LIKE &#39;Annabel%&#39;) OR (address_street_name = &#39;Northwestern Dr&#39; AND address_number IN (</span><span class="si">{</span><span class="n">subq</span><span class="si">}</span><span class="s2">));</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)[</span><span class="s1">&#39;transcript&#39;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>I heard a gunshot and then saw a man run out. He had a &#34;Get Fit Now Gym&#34; bag. The membership number on the bag started with &#34;48Z&#34;. Only gold members have those bags. The man got into a car with a plate that included &#34;H42W&#34;.
+I saw the murder happen, and I recognized the killer from my gym when I was working out last week on January the 9th.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[None, None]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's extract the salient points:</p>
+<ul>
+<li><p>Suspect was at the gym on <strong>Jan 9th</strong></p>
+</li>
+<li><p>Suspect (same?) <strong>male</strong> and has <strong>Get Fit Now Bag</strong>, presumably a member with <strong>"48Z"</strong> as the starting membership id. <strong>Gold member</strong> bag. Car connected to suspect has plate number partial of <strong>"H42W"</strong></p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Taking a look at gym data:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT sql </span>
+<span class="s2">  FROM sqlite_master</span>
+<span class="s2"> where name = &#39;get_fit_now_check_in&#39;&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CREATE TABLE get_fit_now_check_in (
+        membership_id text,
+        check_in_date integer,
+        check_in_time integer,
+        check_out_time integer,
+        FOREIGN KEY (membership_id) REFERENCES get_fit_now_member(id)
+    )
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT sql </span>
+<span class="s2">  FROM sqlite_master</span>
+<span class="s2"> where name = &#39;get_fit_now_member&#39;&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CREATE TABLE get_fit_now_member (
+        id text PRIMARY KEY,
+        person_id integer,
+        name text,
+        membership_start_date integer,
+        membership_status text,
+        FOREIGN KEY (person_id) REFERENCES person(id)
+    )
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM get_fit_now_check_in</span>
+<span class="s2">WHERE check_in_date = 20180109 AND membership_id LIKE &#39;48Z%&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>membership_id</th>
+      <th>check_in_date</th>
+      <th>check_in_time</th>
+      <th>check_out_time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>48Z7A</td>
+      <td>20180109</td>
+      <td>1600</td>
+      <td>1730</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>48Z55</td>
+      <td>20180109</td>
+      <td>1530</td>
+      <td>1700</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is useful. Let's see if we can combine this with the info from the other witness to isolate a single suspect.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">subq</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM get_fit_now_check_in</span>
+<span class="s2">WHERE check_in_date = 20180109 AND membership_id LIKE &#39;48Z%&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM (</span><span class="si">{</span><span class="n">subq</span><span class="si">}</span><span class="s2">) AS c</span>
+<span class="s2">INNER JOIN get_fit_now_member AS m ON m.id = c.membership_id</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>membership_id</th>
+      <th>check_in_date</th>
+      <th>check_in_time</th>
+      <th>check_out_time</th>
+      <th>id</th>
+      <th>person_id</th>
+      <th>name</th>
+      <th>membership_start_date</th>
+      <th>membership_status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>48Z7A</td>
+      <td>20180109</td>
+      <td>1600</td>
+      <td>1730</td>
+      <td>48Z7A</td>
+      <td>28819</td>
+      <td>Joe Germuska</td>
+      <td>20160305</td>
+      <td>gold</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>48Z55</td>
+      <td>20180109</td>
+      <td>1530</td>
+      <td>1700</td>
+      <td>48Z55</td>
+      <td>67318</td>
+      <td>Jeremy Bowers</td>
+      <td>20160101</td>
+      <td>gold</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can take advantage of the 'free' filtration by performing an inner join on the membership id.</p>
+<p>Unfortunately we're stuck between two people. Our last resort is the driver's license.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT sql </span>
+<span class="s2">  FROM sqlite_master</span>
+<span class="s2"> where name = &#39;drivers_license&#39;&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CREATE TABLE drivers_license (
+        id integer PRIMARY KEY,
+        age integer,
+        height integer,
+        eye_color text,
+        hair_color text,
+        gender text,
+        plate_number text,
+        car_make text,
+        car_model text
+    )
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT sql </span>
+<span class="s2">  FROM sqlite_master</span>
+<span class="s2"> where name = &#39;person&#39;&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CREATE TABLE person (
+        id integer PRIMARY KEY,
+        name text,
+        license_id integer,
+        address_number integer,
+        address_street_name text,
+        ssn integer,
+        FOREIGN KEY (license_id) REFERENCES drivers_license(id)
+    )
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Lots of interesting info in these tables, so lets select everything that has a pretty good match.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM drivers_license</span>
+<span class="s2">WHERE plate_number LIKE &#39;%H42W%&#39; AND gender = &#39;male&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>age</th>
+      <th>height</th>
+      <th>eye_color</th>
+      <th>hair_color</th>
+      <th>gender</th>
+      <th>plate_number</th>
+      <th>car_make</th>
+      <th>car_model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>423327</td>
+      <td>30</td>
+      <td>70</td>
+      <td>brown</td>
+      <td>brown</td>
+      <td>male</td>
+      <td>0H42W2</td>
+      <td>Chevrolet</td>
+      <td>Spark LS</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>664760</td>
+      <td>21</td>
+      <td>71</td>
+      <td>black</td>
+      <td>black</td>
+      <td>male</td>
+      <td>4H42WR</td>
+      <td>Nissan</td>
+      <td>Altima</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Interesting... lets see if it matches either of our gym members.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">subq</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM drivers_license</span>
+<span class="s2">WHERE plate_number LIKE &#39;%H42W%&#39; AND gender = &#39;male&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM (</span><span class="si">{</span><span class="n">subq</span><span class="si">}</span><span class="s2">) d</span>
+<span class="s2">INNER JOIN person p ON d.id = p.license_id&quot;&quot;&quot;</span>
+
+<span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>age</th>
+      <th>height</th>
+      <th>eye_color</th>
+      <th>hair_color</th>
+      <th>gender</th>
+      <th>plate_number</th>
+      <th>car_make</th>
+      <th>car_model</th>
+      <th>id</th>
+      <th>name</th>
+      <th>license_id</th>
+      <th>address_number</th>
+      <th>address_street_name</th>
+      <th>ssn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>664760</td>
+      <td>21</td>
+      <td>71</td>
+      <td>black</td>
+      <td>black</td>
+      <td>male</td>
+      <td>4H42WR</td>
+      <td>Nissan</td>
+      <td>Altima</td>
+      <td>51739</td>
+      <td>Tushar Chandra</td>
+      <td>664760</td>
+      <td>312</td>
+      <td>Phi St</td>
+      <td>137882671</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>423327</td>
+      <td>30</td>
+      <td>70</td>
+      <td>brown</td>
+      <td>brown</td>
+      <td>male</td>
+      <td>0H42W2</td>
+      <td>Chevrolet</td>
+      <td>Spark LS</td>
+      <td>67318</td>
+      <td>Jeremy Bowers</td>
+      <td>423327</td>
+      <td>530</td>
+      <td>Washington Pl, Apt 3A</td>
+      <td>871539279</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ah! We found the suspect in the list, but let's create a query that combines it all.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">g_subq</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM get_fit_now_check_in</span>
+<span class="s2">WHERE check_in_date = 20180109 AND membership_id LIKE &#39;48Z%&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">g_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT name</span>
+<span class="s2">FROM (</span><span class="si">{</span><span class="n">g_subq</span><span class="si">}</span><span class="s2">) AS c</span>
+<span class="s2">INNER JOIN get_fit_now_member AS m ON m.id = c.membership_id</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="n">subq</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM drivers_license</span>
+<span class="s2">WHERE plate_number LIKE &#39;%H42W%&#39; AND gender = &#39;male&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM (</span><span class="si">{</span><span class="n">subq</span><span class="si">}</span><span class="s2">) d</span>
+<span class="s2">INNER JOIN person p ON d.id = p.license_id</span>
+<span class="s2">WHERE name IN (</span><span class="si">{</span><span class="n">g_query</span><span class="si">}</span><span class="s2">)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>age</th>
+      <th>height</th>
+      <th>eye_color</th>
+      <th>hair_color</th>
+      <th>gender</th>
+      <th>plate_number</th>
+      <th>car_make</th>
+      <th>car_model</th>
+      <th>id</th>
+      <th>name</th>
+      <th>license_id</th>
+      <th>address_number</th>
+      <th>address_street_name</th>
+      <th>ssn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>423327</td>
+      <td>30</td>
+      <td>70</td>
+      <td>brown</td>
+      <td>brown</td>
+      <td>male</td>
+      <td>0H42W2</td>
+      <td>Chevrolet</td>
+      <td>Spark LS</td>
+      <td>67318</td>
+      <td>Jeremy Bowers</td>
+      <td>423327</td>
+      <td>530</td>
+      <td>Washington Pl, Apt 3A</td>
+      <td>871539279</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Perhaps we found the murderer? Let's see if there's anything else we can find out about the suspect.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM interview</span>
+<span class="s2">WHERE person_id = 67318</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>I was hired by a woman with a lot of money. I don&#39;t know her name but I know she&#39;s around 5&#39;5&#34; (65&#34;) or 5&#39;7&#34; (67&#34;). She has red hair and she drives a Tesla Model S. I know that she attended the SQL Symphony Concert 3 times in December 2017.
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Interesting.. turns out we're not done yet!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Finding-the-real-murderer">Finding the real murderer<a class="anchor-link" href="#Finding-the-real-murderer"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Between 65" AND 67"</li>
+<li>Red hair</li>
+<li>High income </li>
+<li>Tesla Model S</li>
+<li>Checkin SQL Symphony Concert 3 times in December 2017</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT * </span>
+<span class="s2">FROM drivers_license </span>
+<span class="s2">WHERE height BETWEEN 65 AND 67 </span>
+<span class="s2">    AND car_make = &#39;Tesla&#39; </span>
+<span class="s2">    AND gender = &#39;female&#39; </span>
+<span class="s2">    AND hair_color = &#39;red&#39;</span>
+
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>age</th>
+      <th>height</th>
+      <th>eye_color</th>
+      <th>hair_color</th>
+      <th>gender</th>
+      <th>plate_number</th>
+      <th>car_make</th>
+      <th>car_model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>202298</td>
+      <td>68</td>
+      <td>66</td>
+      <td>green</td>
+      <td>red</td>
+      <td>female</td>
+      <td>500123</td>
+      <td>Tesla</td>
+      <td>Model S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>291182</td>
+      <td>65</td>
+      <td>66</td>
+      <td>blue</td>
+      <td>red</td>
+      <td>female</td>
+      <td>08CM64</td>
+      <td>Tesla</td>
+      <td>Model S</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>918773</td>
+      <td>48</td>
+      <td>65</td>
+      <td>black</td>
+      <td>red</td>
+      <td>female</td>
+      <td>917UU3</td>
+      <td>Tesla</td>
+      <td>Model S</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT sql </span>
+<span class="s2">  FROM sqlite_master</span>
+<span class="s2"> where name = &#39;facebook_event_checkin&#39;&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CREATE TABLE facebook_event_checkin (
+        person_id integer,
+        event_id integer,
+        event_name text,
+        date integer,
+        FOREIGN KEY (person_id) REFERENCES person(id)
+    )
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT sql </span>
+<span class="s2">  FROM sqlite_master</span>
+<span class="s2"> where name = &#39;income&#39;&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CREATE TABLE income (
+        ssn integer PRIMARY KEY,
+        annual_income integer
+    )
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can create a single query and combine all</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT name, annual_income</span>
+<span class="s2">FROM facebook_event_checkin f</span>
+<span class="s2">INNER JOIN person p ON p.id = f.person_id </span>
+<span class="s2">INNER JOIN drivers_license d ON p.license_id = d.id</span>
+<span class="s2">INNER JOIN income i ON p.ssn = i.ssn</span>
+<span class="s2">WHERE date BETWEEN 20171200 AND 20171231</span>
+<span class="s2">    AND event_name = &#39;SQL Symphony Concert&#39;</span>
+<span class="s2">    AND height BETWEEN 65 AND 67</span>
+<span class="s2">    AND hair_color = &#39;red&#39;</span>
+<span class="s2">    AND gender = &#39;female&#39;</span>
+<span class="s2">    AND car_make = &#39;Tesla&#39;</span>
+<span class="s2">    AND car_model = &#39;Model S&#39;</span>
+<span class="s2">GROUP BY person_id</span>
+<span class="s2">HAVING COUNT(person_id) &gt; 2</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">pq</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>annual_income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Miranda Priestly</td>
+      <td>310000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Looks like a match!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/ds_blog/2020/06/30/sql-fun.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/ds_blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/ds_blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/ds_blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>A preview on some of the projects I&#39;m working on.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/jordwil" title="jordwil"><svg class="svg-icon grey"><use xlink:href="/ds_blog/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
