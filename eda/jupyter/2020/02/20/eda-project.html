@@ -13,10 +13,11 @@
 <link rel="canonical" href="https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html" />
 <meta property="og:url" content="https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html" />
 <meta property="og:site_name" content="Data Sci Blog" />
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Map_spb_1744_high.jpg/260px-Map_spb_1744_high.jpg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-02-20T00:00:00-06:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Jordan Wilheim"},"description":"Learning how to explore datasets using apartment sales data.","mainEntityOfPage":{"@type":"WebPage","@id":"https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html"},"@type":"BlogPosting","url":"https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html","headline":"Research on apartment sales ads","dateModified":"2020-02-20T00:00:00-06:00","datePublished":"2020-02-20T00:00:00-06:00","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Jordan Wilheim"},"description":"Learning how to explore datasets using apartment sales data.","mainEntityOfPage":{"@type":"WebPage","@id":"https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html"},"@type":"BlogPosting","url":"https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html","headline":"Research on apartment sales ads","dateModified":"2020-02-20T00:00:00-06:00","datePublished":"2020-02-20T00:00:00-06:00","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Map_spb_1744_high.jpg/260px-Map_spb_1744_high.jpg","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/ds_blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jordwil.github.io/ds_blog/feed.xml" title="Data Sci Blog" /><link rel="shortcut icon" type="image/x-icon" href="/ds_blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Research on apartment sales ads | Data Sci Blog</title>
@@ -29,10 +30,11 @@
 <link rel="canonical" href="https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html" />
 <meta property="og:url" content="https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html" />
 <meta property="og:site_name" content="Data Sci Blog" />
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Map_spb_1744_high.jpg/260px-Map_spb_1744_high.jpg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-02-20T00:00:00-06:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Jordan Wilheim"},"description":"Learning how to explore datasets using apartment sales data.","mainEntityOfPage":{"@type":"WebPage","@id":"https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html"},"@type":"BlogPosting","url":"https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html","headline":"Research on apartment sales ads","dateModified":"2020-02-20T00:00:00-06:00","datePublished":"2020-02-20T00:00:00-06:00","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Jordan Wilheim"},"description":"Learning how to explore datasets using apartment sales data.","mainEntityOfPage":{"@type":"WebPage","@id":"https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html"},"@type":"BlogPosting","url":"https://jordwil.github.io/ds_blog/eda/jupyter/2020/02/20/eda-project.html","headline":"Research on apartment sales ads","dateModified":"2020-02-20T00:00:00-06:00","datePublished":"2020-02-20T00:00:00-06:00","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Map_spb_1744_high.jpg/260px-Map_spb_1744_high.jpg","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -112,7 +114,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      12 min read
+      13 min read
     
 </span></p>
 
@@ -145,7 +147,8 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
-<li class="toc-entry toc-h2"><a href="#Examine-file">Examine file </a>
+<li class="toc-entry toc-h2"><a href="#Introduction">Introduction </a></li>
+<li class="toc-entry toc-h2"><a href="#EDA">EDA </a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#Conclusion">Conclusion </a></li>
 </ul>
@@ -205,8 +208,26 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Examine-file">
-<a class="anchor" href="#Examine-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examine file<a class="anchor-link" href="#Examine-file"> </a>
+<h2 id="Introduction">
+<a class="anchor" href="#Introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction<a class="anchor-link" href="#Introduction"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I'll be using an archive of sales ads for realty in St. Petersburg, Russia, and the surrounding areas collected over the past few years. I'll focus on <strong>determining the market value of real estate properties</strong>.</p>
+<p>There are two different types of data available for every apartment for sale. The first type is a user’s input. The second type is received automatically based upon the map data. For example, the distance from the downtown area, airport, the nearest park or body of water.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="EDA">
+<a class="anchor" href="#EDA" aria-hidden="true"><span class="octicon octicon-link"></span></a>EDA<a class="anchor-link" href="#EDA"> </a>
 </h2>
 </div>
 </div>
@@ -1473,11 +1494,15 @@ dtype: int64</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">"ponds_around3000"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"ponds_around3000"</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">"ponds_around3000"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"ponds_around3000"</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">"ponds_around3000"</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">();</span>
 </pre></div>
 
@@ -1485,6 +1510,7 @@ dtype: int64</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -1507,11 +1533,15 @@ dtype: int64</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">"days_exposition"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"days_exposition"</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">"days_exposition"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"days_exposition"</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">"days_exposition"</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
 </pre></div>
 
@@ -1519,6 +1549,7 @@ dtype: int64</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -1541,17 +1572,22 @@ dtype: int64</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">"ceiling_height"</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"box"</span><span class="p">);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">"ceiling_height"</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"box"</span><span class="p">);</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -1582,11 +1618,15 @@ dtype: int64</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">"ceiling_height"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"ceiling_height"</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">"ceiling_height"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"ceiling_height"</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">"ceiling_height"</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">));</span>
 </pre></div>
 
@@ -1594,6 +1634,7 @@ dtype: int64</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -1633,11 +1674,15 @@ dtype: int64</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">"locality_name"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">"Unknown"</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">"locality_name"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">"Unknown"</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">"locality_name"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"bar"</span><span class="p">);</span>
 </pre></div>
 
@@ -1645,6 +1690,7 @@ dtype: int64</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -2257,11 +2303,15 @@ dtype: int64</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cols_of_interest</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"total_area"</span><span class="p">,</span> <span class="s2">"last_price"</span><span class="p">,</span> <span class="s2">"rooms"</span><span class="p">,</span> <span class="s2">"ceiling_height"</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">cols_of_interest</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"total_area"</span><span class="p">,</span> <span class="s2">"last_price"</span><span class="p">,</span> <span class="s2">"rooms"</span><span class="p">,</span> <span class="s2">"ceiling_height"</span><span class="p">]</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scatter_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">cols_of_interest</span><span class="p">],</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
 </pre></div>
 
@@ -2269,6 +2319,7 @@ dtype: int64</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -2497,17 +2548,22 @@ Name: days_exposition, dtype: float64</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">"days_exposition"</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"box"</span><span class="p">);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">"days_exposition"</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"box"</span><span class="p">);</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -2777,11 +2833,15 @@ dtype: object</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scatter_matrix</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scatter_matrix</span><span class="p">(</span>
     <span class="n">df</span><span class="p">[</span><span class="n">cols_of_interest</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mask_outliers</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span>
 <span class="p">);</span>
 </pre></div>
@@ -2790,6 +2850,7 @@ dtype: object</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -2820,17 +2881,22 @@ dtype: object</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">cols_of_interest</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mask_outliers</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">cols_of_interest</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mask_outliers</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -3053,11 +3119,15 @@ Name: floor_type, Length: 23699, dtype: object</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scatter_matrix</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scatter_matrix</span><span class="p">(</span>
     <span class="n">df</span><span class="p">[</span><span class="n">cols_of_interest</span><span class="p">]</span>
     <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mask_outliers</span><span class="p">)</span>
     <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">"day_of_week"</span><span class="p">,</span> <span class="s2">"month"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">]]),</span>
@@ -3070,6 +3140,7 @@ Name: floor_type, Length: 23699, dtype: object</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -3092,11 +3163,15 @@ Name: floor_type, Length: 23699, dtype: object</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
     <span class="n">df</span><span class="p">[</span><span class="n">cols_of_interest</span><span class="p">]</span>
     <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mask_outliers</span><span class="p">)</span>
@@ -3110,6 +3185,7 @@ Name: floor_type, Length: 23699, dtype: object</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -3132,17 +3208,22 @@ Name: floor_type, Length: 23699, dtype: object</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"first_day_exposition"</span><span class="p">)[</span><span class="s2">"last_price"</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"y"</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"first_day_exposition"</span><span class="p">)[</span><span class="s2">"last_price"</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"y"</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -3326,11 +3407,15 @@ Name: floor_type, Length: 23699, dtype: object</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">'locality_name == "Saint Peterburg"'</span><span class="p">)[</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">'locality_name == "Saint Peterburg"'</span><span class="p">)[</span>
     <span class="p">[</span><span class="s2">"cityCenters_nearest"</span><span class="p">,</span> <span class="s2">"last_price"</span><span class="p">]</span>
 <span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"scatter"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"cityCenters_nearest"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"last_price"</span><span class="p">);</span>
 </pre></div>
@@ -3339,6 +3424,7 @@ Name: floor_type, Length: 23699, dtype: object</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -3415,11 +3501,15 @@ Name: floor_type, Length: 23699, dtype: object</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">downtown_interp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3000</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">downtown_interp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3000</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">peak</span> <span class="ow">in</span> <span class="n">downtown_interp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">peak_x</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">():</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">peak</span><span class="p">)</span>
 </pre></div>
@@ -3428,6 +3518,7 @@ Name: floor_type, Length: 23699, dtype: object</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -3546,11 +3637,15 @@ Name: floor_type, Length: 23699, dtype: object</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">downtown_limit</span> <span class="o">=</span> <span class="mi">574</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">downtown_limit</span> <span class="o">=</span> <span class="mi">574</span>
 <span class="n">city_center_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="s2">"cityCenters_nearest &lt; @downtown_limit &amp; locality_name == 'Saint Peterburg'"</span>
 <span class="p">)</span>
@@ -3564,6 +3659,7 @@ Name: floor_type, Length: 23699, dtype: object</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -3594,11 +3690,15 @@ Name: floor_type, Length: 23699, dtype: object</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">city_center_price_df</span> <span class="o">=</span> <span class="n">city_center_df</span><span class="p">[</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">city_center_price_df</span> <span class="o">=</span> <span class="n">city_center_df</span><span class="p">[</span>
     <span class="p">[</span><span class="s2">"last_price"</span><span class="p">,</span> <span class="s2">"rooms"</span><span class="p">,</span> <span class="s2">"floor"</span><span class="p">,</span> <span class="s2">"cityCenters_nearest"</span><span class="p">,</span> <span class="s2">"first_day_exposition"</span><span class="p">]</span>
 <span class="p">]</span>
 </pre></div>
@@ -3607,6 +3707,7 @@ Name: floor_type, Length: 23699, dtype: object</pre>
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -3646,11 +3747,15 @@ Name: floor_type, Length: 23699, dtype: object</pre>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">city_center_price_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"first_day_exposition"</span><span class="p">)[</span><span class="s2">"last_price"</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
+<span class="n">city_center_price_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"first_day_exposition"</span><span class="p">)[</span><span class="s2">"last_price"</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span>
     <span class="s2">"y"</span>
 <span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
 </pre></div>
@@ -3659,6 +3764,7 @@ Name: floor_type, Length: 23699, dtype: object</pre>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
