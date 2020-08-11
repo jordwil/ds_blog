@@ -114,7 +114,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      10 min read
+      11 min read
     
 </span></p>
 
@@ -214,17 +214,14 @@ window.onload = wrap_img;
 
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">make_scorer</span>
 <span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
-
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 <span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
-
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
 <span class="kn">from</span> <span class="nn">sklearn.multioutput</span> <span class="kn">import</span> <span class="n">MultiOutputRegressor</span>
-<span class="kn">from</span> <span class="nn">sklearn.multioutput</span> <span class="kn">import</span> <span class="n">RegressorChain</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDRegressor</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
 <span class="kn">from</span> <span class="nn">sklearn.dummy</span> <span class="kn">import</span> <span class="n">DummyRegressor</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span><span class="p">,</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span><span class="p">,</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">cross_validate</span>
 
 <span class="n">STATE</span> <span class="o">=</span> <span class="mi">10</span>
 </pre></div>
@@ -249,7 +246,7 @@ window.onload = wrap_img;
     <span class="n">Path</span><span class="p">(</span><span class="s2">"../datasets"</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="s2">"gold_recovery_"</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">".csv"</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"train"</span><span class="p">,</span> <span class="s2">"test"</span><span class="p">,</span> <span class="s2">"full"</span><span class="p">]</span>
 <span class="p">]</span>
-<span class="n">train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">full</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">file_paths</span><span class="p">)</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">full</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">'date'</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">file_paths</span><span class="p">)</span>
 
 <span class="n">cats</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">"rougher.input.feed"</span><span class="p">,</span>
@@ -366,7 +363,7 @@ window.onload = wrap_img;
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>&lt;class 'pandas.core.frame.DataFrame'&gt;
-RangeIndex: 16860 entries, 0 to 16859
+Index: 16860 entries, 2016-01-15 00:00:00 to 2018-08-18 10:59:59
 Data columns (total 34 columns):
  #   Column                                              Non-Null Count  Dtype  
 ---  ------                                              --------------  -----  
@@ -405,7 +402,7 @@ Data columns (total 34 columns):
  32  secondary_cleaner.output.tail_pb                    16764 non-null  float64
  33  secondary_cleaner.output.tail_sol                   14874 non-null  float64
 dtypes: float64(34)
-memory usage: 4.4 MB
+memory usage: 4.5+ MB
 </pre>
 </div>
 </div>
@@ -423,24 +420,8 @@ memory usage: 4.4 MB
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">full</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"date"</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">X_test</span><span class="p">[</span><span class="s2">"date"</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">full</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">X_test</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Training set shape: </span><span class="si">{</span><span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, Testing set shape: </span><span class="si">{</span><span class="n">test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -452,12 +433,10 @@ memory usage: 4.4 MB
 
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(16860, 87)</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Training set shape: (16860, 86), Testing set shape: (5856, 86)
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -501,14 +480,14 @@ memory usage: 4.4 MB
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calc_recovery</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">conv_inf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">conv_neg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">conv_high</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calc_recovery</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">conv_inf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">conv_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">conv_hund</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="n">rec</span> <span class="o">=</span> <span class="p">((</span><span class="n">C</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span> <span class="o">-</span> <span class="n">T</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">F</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span> <span class="o">-</span> <span class="n">T</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">100</span>
     <span class="k">if</span> <span class="n">conv_inf</span><span class="p">:</span>
         <span class="n">rec</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-    <span class="k">if</span> <span class="n">conv_neg</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">conv_zero</span><span class="p">:</span>
         <span class="n">rec</span><span class="p">[</span><span class="n">rec</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
-    <span class="k">if</span> <span class="n">conv_high</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">conv_hund</span><span class="p">:</span>
         <span class="n">rec</span><span class="p">[</span><span class="n">rec</span> <span class="o">&gt;=</span> <span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="k">return</span> <span class="n">rec</span>
 </pre></div>
@@ -578,8 +557,59 @@ memory usage: 4.4 MB
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">train</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">any</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
-<span class="n">test</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">test</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">any</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_c</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">train</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">any</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">test_c</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">test</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">any</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"After filtering, we are retaining </span><span class="si">{</span><span class="p">(</span><span class="n">train_c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2"> of the training data"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"After filtering, we are retaining </span><span class="si">{</span><span class="p">(</span><span class="n">test_c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2"> of the testing data"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>After filtering, we are retaining 81.35% of the training data
+After filtering, we are retaining 87.40% of the testing data
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train</span> <span class="o">=</span> <span class="n">train_c</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">test_c</span>
 </pre></div>
 
     </div>
@@ -592,7 +622,7 @@ memory usage: 4.4 MB
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>I'm dropping the date feature, as it will not serve to improve the model.</p>
+<p>This isn't too dramatic of reduction in data, and I'll choose to drop labels where any value in the label row is not between 0 and 100.</p>
 
 </div>
 </div>
@@ -605,16 +635,381 @@ memory usage: 4.4 MB
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">train</span><span class="p">[</span><span class="n">features</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">train</span><span class="p">[</span><span class="n">features</span><span class="p">],</span>
     <span class="n">train</span><span class="p">[[</span><span class="s2">"recovery_first"</span><span class="p">,</span> <span class="s2">"recovery_final"</span><span class="p">]],</span>
 <span class="p">)</span>
 <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">test</span><span class="p">[</span><span class="n">features</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">test</span><span class="p">[</span><span class="n">features</span><span class="p">],</span>
     <span class="n">test</span><span class="p">[[</span><span class="s2">"recovery_first"</span><span class="p">,</span> <span class="s2">"recovery_final"</span><span class="p">]],</span>
 <span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">"ffill"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>primary_cleaner.input.sulfate</th>
+      <th>primary_cleaner.input.depressant</th>
+      <th>primary_cleaner.input.feed_size</th>
+      <th>primary_cleaner.input.xanthate</th>
+      <th>primary_cleaner.state.floatbank8_a_air</th>
+      <th>primary_cleaner.state.floatbank8_a_level</th>
+      <th>primary_cleaner.state.floatbank8_b_air</th>
+      <th>primary_cleaner.state.floatbank8_b_level</th>
+      <th>primary_cleaner.state.floatbank8_c_air</th>
+      <th>primary_cleaner.state.floatbank8_c_level</th>
+      <th>...</th>
+      <th>secondary_cleaner.state.floatbank4_a_air</th>
+      <th>secondary_cleaner.state.floatbank4_a_level</th>
+      <th>secondary_cleaner.state.floatbank4_b_air</th>
+      <th>secondary_cleaner.state.floatbank4_b_level</th>
+      <th>secondary_cleaner.state.floatbank5_a_air</th>
+      <th>secondary_cleaner.state.floatbank5_a_level</th>
+      <th>secondary_cleaner.state.floatbank5_b_air</th>
+      <th>secondary_cleaner.state.floatbank5_b_level</th>
+      <th>secondary_cleaner.state.floatbank6_a_air</th>
+      <th>secondary_cleaner.state.floatbank6_a_level</th>
+    </tr>
+    <tr>
+      <th>date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2016-01-15 00:00:00</th>
+      <td>127.092</td>
+      <td>10.1283</td>
+      <td>7.25</td>
+      <td>0.988759</td>
+      <td>1549.78</td>
+      <td>-498.912</td>
+      <td>1551.43</td>
+      <td>-516.403</td>
+      <td>1549.87</td>
+      <td>-498.667</td>
+      <td>...</td>
+      <td>14.0168</td>
+      <td>-502.488</td>
+      <td>12.0999</td>
+      <td>-504.716</td>
+      <td>9.92563</td>
+      <td>-498.31</td>
+      <td>8.07967</td>
+      <td>-500.471</td>
+      <td>14.1513</td>
+      <td>-605.842</td>
+    </tr>
+    <tr>
+      <th>2016-01-15 01:00:00</th>
+      <td>125.629</td>
+      <td>10.2963</td>
+      <td>7.25</td>
+      <td>1.00266</td>
+      <td>1576.17</td>
+      <td>-500.905</td>
+      <td>1575.95</td>
+      <td>-499.866</td>
+      <td>1575.99</td>
+      <td>-499.315</td>
+      <td>...</td>
+      <td>13.9923</td>
+      <td>-505.503</td>
+      <td>11.9505</td>
+      <td>-501.332</td>
+      <td>10.0392</td>
+      <td>-500.17</td>
+      <td>7.98476</td>
+      <td>-500.582</td>
+      <td>13.9984</td>
+      <td>-599.787</td>
+    </tr>
+    <tr>
+      <th>2016-01-15 02:00:00</th>
+      <td>123.82</td>
+      <td>11.3163</td>
+      <td>7.25</td>
+      <td>0.991265</td>
+      <td>1601.56</td>
+      <td>-499.998</td>
+      <td>1600.39</td>
+      <td>-500.608</td>
+      <td>1602</td>
+      <td>-500.87</td>
+      <td>...</td>
+      <td>14.015</td>
+      <td>-502.521</td>
+      <td>11.9128</td>
+      <td>-501.133</td>
+      <td>10.0709</td>
+      <td>-500.129</td>
+      <td>8.01388</td>
+      <td>-500.518</td>
+      <td>14.0287</td>
+      <td>-601.427</td>
+    </tr>
+    <tr>
+      <th>2016-01-15 03:00:00</th>
+      <td>122.27</td>
+      <td>11.3221</td>
+      <td>7.25</td>
+      <td>0.996739</td>
+      <td>1599.97</td>
+      <td>-500.952</td>
+      <td>1600.66</td>
+      <td>-499.677</td>
+      <td>1600.3</td>
+      <td>-500.728</td>
+      <td>...</td>
+      <td>14.0365</td>
+      <td>-500.857</td>
+      <td>11.9996</td>
+      <td>-501.194</td>
+      <td>9.97037</td>
+      <td>-499.202</td>
+      <td>7.97732</td>
+      <td>-500.256</td>
+      <td>14.0056</td>
+      <td>-599.996</td>
+    </tr>
+    <tr>
+      <th>2016-01-15 04:00:00</th>
+      <td>117.988</td>
+      <td>11.9136</td>
+      <td>7.25</td>
+      <td>1.00987</td>
+      <td>1601.34</td>
+      <td>-498.975</td>
+      <td>1601.44</td>
+      <td>-500.323</td>
+      <td>1599.58</td>
+      <td>-500.888</td>
+      <td>...</td>
+      <td>14.0273</td>
+      <td>-499.839</td>
+      <td>11.9531</td>
+      <td>-501.054</td>
+      <td>9.92571</td>
+      <td>-501.687</td>
+      <td>7.89424</td>
+      <td>-500.356</td>
+      <td>13.9966</td>
+      <td>-601.497</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2018-08-18 06:59:59</th>
+      <td>123.382</td>
+      <td>8.02893</td>
+      <td>6.50</td>
+      <td>1.30423</td>
+      <td>1648.42</td>
+      <td>-400.382</td>
+      <td>1648.74</td>
+      <td>-400.36</td>
+      <td>1648.58</td>
+      <td>-399.364</td>
+      <td>...</td>
+      <td>23.0315</td>
+      <td>-501.168</td>
+      <td>20.0076</td>
+      <td>-499.74</td>
+      <td>18.006</td>
+      <td>-499.834</td>
+      <td>13.0011</td>
+      <td>-500.156</td>
+      <td>20.0078</td>
+      <td>-501.296</td>
+    </tr>
+    <tr>
+      <th>2018-08-18 07:59:59</th>
+      <td>120.878</td>
+      <td>7.96264</td>
+      <td>6.50</td>
+      <td>1.30242</td>
+      <td>1649.82</td>
+      <td>-399.931</td>
+      <td>1649.36</td>
+      <td>-399.721</td>
+      <td>1648.66</td>
+      <td>-401.196</td>
+      <td>...</td>
+      <td>22.9601</td>
+      <td>-501.613</td>
+      <td>20.0357</td>
+      <td>-500.251</td>
+      <td>17.9985</td>
+      <td>-500.395</td>
+      <td>12.954</td>
+      <td>-499.895</td>
+      <td>19.9685</td>
+      <td>-501.042</td>
+    </tr>
+    <tr>
+      <th>2018-08-18 08:59:59</th>
+      <td>105.666</td>
+      <td>7.95511</td>
+      <td>6.50</td>
+      <td>1.31593</td>
+      <td>1649.17</td>
+      <td>-399.889</td>
+      <td>1649.2</td>
+      <td>-399.678</td>
+      <td>1647.9</td>
+      <td>-399.988</td>
+      <td>...</td>
+      <td>23.0157</td>
+      <td>-501.712</td>
+      <td>19.9512</td>
+      <td>-499.857</td>
+      <td>18.0195</td>
+      <td>-500.451</td>
+      <td>13.0234</td>
+      <td>-499.914</td>
+      <td>19.9909</td>
+      <td>-501.518</td>
+    </tr>
+    <tr>
+      <th>2018-08-18 09:59:59</th>
+      <td>98.8805</td>
+      <td>7.98416</td>
+      <td>6.50</td>
+      <td>1.24197</td>
+      <td>1646.55</td>
+      <td>-398.977</td>
+      <td>1648.21</td>
+      <td>-400.383</td>
+      <td>1648.92</td>
+      <td>-399.521</td>
+      <td>...</td>
+      <td>23.025</td>
+      <td>-501.153</td>
+      <td>20.0541</td>
+      <td>-500.315</td>
+      <td>17.9795</td>
+      <td>-499.273</td>
+      <td>12.9924</td>
+      <td>-499.976</td>
+      <td>20.014</td>
+      <td>-500.625</td>
+    </tr>
+    <tr>
+      <th>2018-08-18 10:59:59</th>
+      <td>95.2484</td>
+      <td>8.07896</td>
+      <td>6.50</td>
+      <td>1.28304</td>
+      <td>1648.76</td>
+      <td>-399.862</td>
+      <td>1650.14</td>
+      <td>-399.957</td>
+      <td>1648.83</td>
+      <td>-400.586</td>
+      <td>...</td>
+      <td>23.0186</td>
+      <td>-500.493</td>
+      <td>20.0202</td>
+      <td>-500.22</td>
+      <td>17.9635</td>
+      <td>-499.939</td>
+      <td>12.9903</td>
+      <td>-500.081</td>
+      <td>19.9903</td>
+      <td>-499.192</td>
+    </tr>
+  </tbody>
+</table>
+<p>13715 rows × 52 columns</p>
+</div>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -1461,88 +1856,6 @@ memory usage: 4.4 MB
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>recovery_first</th>
-      <th>recovery_final</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>87.107763</td>
-      <td>93.944554</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>86.843261</td>
-      <td>93.790501</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>86.842308</td>
-      <td>93.509750</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>87.226430</td>
-      <td>93.595268</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>86.688794</td>
-      <td>93.811976</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -1597,10 +1910,34 @@ memory usage: 4.4 MB
       <th>secondary_cleaner.state.floatbank6_a_air</th>
       <th>secondary_cleaner.state.floatbank6_a_level</th>
     </tr>
+    <tr>
+      <th>date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
+      <th>2016-01-15 00:00:00</th>
       <td>127.092003</td>
       <td>10.128295</td>
       <td>7.25</td>
@@ -1624,7 +1961,7 @@ memory usage: 4.4 MB
       <td>-605.841980</td>
     </tr>
     <tr>
-      <th>1</th>
+      <th>2016-01-15 01:00:00</th>
       <td>125.629232</td>
       <td>10.296251</td>
       <td>7.25</td>
@@ -1648,7 +1985,7 @@ memory usage: 4.4 MB
       <td>-599.787184</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>2016-01-15 02:00:00</th>
       <td>123.819808</td>
       <td>11.316280</td>
       <td>7.25</td>
@@ -1672,7 +2009,7 @@ memory usage: 4.4 MB
       <td>-601.427363</td>
     </tr>
     <tr>
-      <th>3</th>
+      <th>2016-01-15 03:00:00</th>
       <td>122.270188</td>
       <td>11.322140</td>
       <td>7.25</td>
@@ -1696,7 +2033,7 @@ memory usage: 4.4 MB
       <td>-599.996129</td>
     </tr>
     <tr>
-      <th>4</th>
+      <th>2016-01-15 04:00:00</th>
       <td>117.988169</td>
       <td>11.913613</td>
       <td>7.25</td>
@@ -1783,7 +2120,7 @@ memory usage: 4.4 MB
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse</span>
-<span class="c1">#!rm ../models/lin_search.joblib</span>
+
 <span class="n">lhparams</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"multioutputregressor__estimator__alpha"</span><span class="p">:</span> <span class="mf">10.0</span> <span class="o">**</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
     <span class="s2">"multioutputregressor__estimator__penalty"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"l2"</span><span class="p">,</span> <span class="s2">"l1"</span><span class="p">,</span> <span class="s2">"elasticnet"</span><span class="p">],</span>
@@ -1897,9 +2234,7 @@ memory usage: 4.4 MB
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
-
-<span class="n">rf_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rf_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span>
     <span class="n">SimpleImputer</span><span class="p">(),</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">STATE</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">rf_cv</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span>
@@ -1949,9 +2284,9 @@ memory usage: 4.4 MB
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{'fit_time': array([248.30114698, 252.9300909 , 235.06526303, 250.62381983,
-        159.77804089]),
- 'score_time': array([0.19062209, 0.19019198, 0.26905203, 0.2250073 , 0.10613608]),
+<pre>{'fit_time': array([248.53683209, 251.08133101, 237.47486711, 248.04077172,
+        131.68665004]),
+ 'score_time': array([0.15289998, 0.17718387, 0.13582897, 0.15433502, 0.16518307]),
  'test_score': array([-3.66719515, -3.94836679, -2.52269754, -3.7446072 , -4.82376732])}</pre>
 </div>
 
@@ -2065,7 +2400,7 @@ yields a SMAPE of: 2.94% on the test dataset
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We're able to get a slight improvement on recovery using our linear model, but not by much.</p>
-<p>If we're not satisfied with this score, it may be worth experimenting with more advanced imputation techniques, more complex models, and feature selection and engineering.</p>
+<p>If we're not satisfied with this score, it may be worth experimenting with more advanced imputation techniques, more complex models, and feature engineering.</p>
 
 </div>
 </div>
