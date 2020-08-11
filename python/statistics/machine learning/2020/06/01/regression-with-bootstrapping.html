@@ -224,7 +224,7 @@ Pick the region with the highest total profit for the selected oil wells.
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
@@ -272,9 +272,9 @@ Pick the region with the highest total profit for the selected oil wells.
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">g1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"../datasets/geo_data_0.csv"</span><span class="p">)</span>
-<span class="n">g2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"../datasets/geo_data_1.csv"</span><span class="p">)</span>
-<span class="n">g3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"../datasets/geo_data_2.csv"</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"geo_data_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="s2">".csv"</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+
+<span class="n">df_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">"../datasets"</span><span class="p">)</span> <span class="o">/</span> <span class="n">fn</span><span class="p">)</span> <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -291,7 +291,7 @@ Pick the region with the highest total profit for the selected oil wells.
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">g1</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -384,128 +384,6 @@ Pick the region with the highest total profit for the selected oil wells.
 </div>
     
 
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">g1</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>id         0
-f0         0
-f1         0
-f2         0
-product    0
-dtype: int64</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">g2</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>id         0
-f0         0
-f1         0
-f2         0
-product    0
-dtype: int64</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">g3</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>id         0
-f0         0
-f1         0
-f2         0
-product    0
-dtype: int64</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>No missing values here!</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -594,7 +472,7 @@ dtype: int64</pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">exp_model</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">exp_rand</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">oil_data</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s2">"g1"</span><span class="p">,</span> <span class="s2">"g2"</span><span class="p">,</span> <span class="s2">"g3"</span><span class="p">],</span> <span class="p">[</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">g3</span><span class="p">]):</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">oil_data</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s2">"g1"</span><span class="p">,</span> <span class="s2">"g2"</span><span class="p">,</span> <span class="s2">"g3"</span><span class="p">],</span> <span class="n">df_list</span><span class="p">):</span>
 
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
         <span class="n">oil_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"product"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
@@ -1073,7 +951,7 @@ Name: Profit (USD), dtype: float64</pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span>
     <span class="n">concat_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"Region"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">])</span>
     <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"Profit (USD)"</span><span class="p">:</span> <span class="s2">"Projected Chance of Loss"</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"Profit (USD)"</span><span class="p">:</span> <span class="s2">"Percent Projected Chance of Loss"</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 
@@ -1107,7 +985,7 @@ Name: Profit (USD), dtype: float64</pre>
     <tr style="text-align: right;">
       <th></th>
       <th></th>
-      <th>Projected Chance of Loss</th>
+      <th>Percent Projected Chance of Loss</th>
     </tr>
     <tr>
       <th>Region</th>
@@ -1159,7 +1037,7 @@ Name: Profit (USD), dtype: float64</pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The g2 region has the lowest risk of loss at 2.21%, as well as the highest expected profit.</p>
+<p>The g2 region has the lowest risk of loss as well as the highest expected profit.</p>
 
 </div>
 </div>
