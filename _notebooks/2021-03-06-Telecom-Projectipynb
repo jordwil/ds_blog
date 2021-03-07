@@ -13,19 +13,6 @@
       "display_name": "Python 3"
     }
   },
-  "cells": [
-    {
-      "cell_type": "code",
-      "metadata": {
-        "id": "ICQb9XNuRoQ4"
-      },
-      "source": [
-        "!pip install category-encoders\n",
-        "!pip install scikit-plot"
-      ],
-      "execution_count": null,
-      "outputs": []
-    },
     {
       "cell_type": "code",
       "metadata": {
